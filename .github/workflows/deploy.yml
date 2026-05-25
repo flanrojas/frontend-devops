@@ -25,11 +25,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build image
-        run: |
-          docker build \
-            --build-arg VITE_VENTAS_API_URL=${{ vars.VITE_VENTAS_API_URL }} \
-            --build-arg VITE_DESPACHOS_API_URL=${{ vars.VITE_DESPACHOS_API_URL }} \
-            -t front-despacho .
+        run: docker build -t front-despacho .
 
       - name: Tag image
         run: docker tag front-despacho:latest ${{ vars.ECR_REPO_URL }}:latest
