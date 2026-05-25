@@ -1,11 +1,11 @@
-const cleanUrl = (url) => url.replace(/\/$/, "");
+const cleanUrl = (url = "") => url.replace(/\/$/, "");
 
 export const VENTAS_API_URL = cleanUrl(
-  import.meta.env.VITE_VENTAS_API_URL || "/api-ventas"
+  import.meta.env.VITE_VENTAS_API_URL
 );
 
 export const DESPACHOS_API_URL = cleanUrl(
-  import.meta.env.VITE_DESPACHOS_API_URL || "/api-despachos"
+  import.meta.env.VITE_DESPACHOS_API_URL
 );
 
 const buildApiPath = (baseUrl, path) => `${baseUrl}${path.startsWith("/") ? path : `/${path}`}`;
