@@ -27,7 +27,8 @@ jobs:
       - name: Build image
         run: |
           docker build \
-            --build-arg VITE_API_URL=${{ vars.VITE_API_URL }} \
+            --build-arg VITE_VENTAS_API_URL=${{ vars.VITE_VENTAS_API_URL }} \
+            --build-arg VITE_DESPACHOS_API_URL=${{ vars.VITE_DESPACHOS_API_URL }} \
             -t front-despacho .
 
       - name: Tag image
@@ -56,4 +57,3 @@ jobs:
             docker stop front-despacho || true
             docker rm front-despacho || true
             docker run -d --name front-despacho -p 80:80 "$ECR_REPO_URL:latest"
-

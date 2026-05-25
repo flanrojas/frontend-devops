@@ -4,23 +4,30 @@ import react from '@vitejs/plugin-react-swc'
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const apiUrl = env.VITE_API_URL ?? env.API_URL
+  const ventasApiUrl = env.VITE_VENTAS_API_URL
+  const despachosApiUrl = env.VITE_DESPACHOS_API_URL
+  const proxy = {}
+
+  if (ventasApiUrl) {
+    proxy['/api-ventas'] = {
+      target: ventasApiUrl,
+      changeOrigin: true,
+      rewrite: (path) => path.replace(/^\/api-ventas/, '')
+    }
+  }
+
+  if (despachosApiUrl) {
+    proxy['/api-despachos'] = {
+      target: despachosApiUrl,
+      changeOrigin: true,
+      rewrite: (path) => path.replace(/^\/api-despachos/, '')
+    }
+  }
 
   return {
     plugins: [react()],
-    define: {
-      'import.meta.env.API_URL': JSON.stringify(apiUrl ?? '')
-    },
     server: {
-      proxy: apiUrl
-        ? {
-            '/api': {
-              target: apiUrl,
-              changeOrigin: true,
-              rewrite: (path) => path.replace(/^\/api/, '')
-            }
-          }
-        : undefined
+      proxy: Object.keys(proxy).length ? proxy : undefined
     }
   }
 })
