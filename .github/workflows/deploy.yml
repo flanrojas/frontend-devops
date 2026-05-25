@@ -27,6 +27,7 @@ jobs:
       - name: Build image
         run: |
           docker build \
+            --build-arg VITE_API_URL=${{ vars.VITE_API_URL }} \
             -t front-despacho .
 
       - name: Tag image
